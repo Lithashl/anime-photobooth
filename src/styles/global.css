@@ -1,0 +1,13 @@
+@font-face {
+  font-family: "Make Choco";
+  src: url("../../public/assets/fonts/make_choco/Make\ Choco.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "MakeChoco", cursive, sans-serif;
+  color: #8c5b4a;
+  margin: 0;
+  padding: 0;
+}

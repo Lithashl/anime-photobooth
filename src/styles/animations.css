@@ -1,0 +1,43 @@
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 8px 28px rgba(229, 58, 146, 0.4); }
+  50%       { box-shadow: 0 8px 44px rgba(229, 58, 146, 0.72); }
+}
+
+@keyframes rotateSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.app-bg {
+  background: linear-gradient(-45deg, #0d0020, #2a0845, #6b1248, #c9306e, #ff7aa2, #c9a0dc);
+  background-size: 400% 400%;
+  animation: gradientShift 10s ease infinite;
+}
+
+.landing-card-anim {
+  animation: fadeSlideUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.float-anim {
+  animation: floatY 3.5s ease-in-out infinite;
+}
+
+.glow-btn {
+  animation: glowPulse 2.2s ease-in-out infinite;
+}
