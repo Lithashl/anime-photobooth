@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import Webcam from "react-webcam";
 import {
     CameraFill,
@@ -40,18 +40,17 @@ const bgColorOptions = [
 const videoConstraints = { width: 960, height: 640, facingMode: "user" };
 const SLOT_WIDTH = 567;
 const SLOT_HEIGHT = 373;
+const slots = [
+    { x: 70, y: 57 },
+    { x: 70, y: 514 },
+    { x: 70, y: 971 },
+    { x: 70, y: 1428 }
+];
 
 export default function PhotoBooth({ selectedFrame, onBack, onBgColorChange }) {
     const webcamRef = useRef(null);
     const canvasRef = useRef(null);
     const frameImgRef = useRef(null);
-
-    const slots = [
-        { x: 70, y: 57 },
-        { x: 70, y: 514 },
-        { x: 70, y: 971 },
-        { x: 70, y: 1428 }
-    ];
 
     const [mode, setMode] = useState("photo");
     const [photos, setPhotos] = useState([]);
@@ -76,17 +75,7 @@ export default function PhotoBooth({ selectedFrame, onBack, onBgColorChange }) {
         onBgColorChange?.(hex);
     };
 
-    useEffect(() => {
-        if (!selectedFrame) return;
-        const img = new Image();
-        img.src = selectedFrame;
-        img.onload = () => {
-            frameImgRef.current = img;
-            drawCanvas();
-        };
-    }, [selectedFrame]);
-
-    const drawCanvas = () => {
+    const drawCanvas = useCallback(() => {
         const canvas = canvasRef.current;
         if (!canvas || !frameImgRef.current) return;
 
@@ -126,9 +115,19 @@ export default function PhotoBooth({ selectedFrame, onBack, onBgColorChange }) {
                 ctx.strokeRect(s.x, s.y, 150, 150);
             }
         });
-    };
+    }, [selectedFilter, photos, stickers, selectedSticker]);
 
-    useEffect(drawCanvas, [photos, stickers, selectedSticker, photoCount, selectedFilter]);
+    useEffect(() => {
+        if (!selectedFrame) return;
+        const img = new Image();
+        img.src = selectedFrame;
+        img.onload = () => {
+            frameImgRef.current = img;
+            drawCanvas();
+        };
+    }, [selectedFrame, drawCanvas]);
+
+    useEffect(drawCanvas, [drawCanvas]);
 
     const handleBack = () => {
         if (mode === "decorate") {
