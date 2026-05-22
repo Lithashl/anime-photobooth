@@ -38,14 +38,14 @@ export default function Landing({ onStart }) {
                 </span>
             ))}
 
-            <div style={styles.card} className="landing-card-anim">
+            <div style={styles.card} className="landing-card-anim landing-card">
                 <div style={styles.topPill}>
                     <Stars size={14} style={{ marginRight: 6, verticalAlign: "middle" }} />
                     anime photobooth
                     <Stars size={14} style={{ marginLeft: 6, verticalAlign: "middle" }} />
                 </div>
 
-                <h1 style={styles.title}>
+                <h1 style={styles.title} className="landing-title">
                     Strike a pose.
                     <br />
                     <span style={styles.titleGradient}>Keep the memory with your Favorite Characters Anime.</span>
@@ -56,7 +56,7 @@ export default function Landing({ onStart }) {
                 </p>
 
                 <button
-                    className="glow-btn"
+                    className="glow-btn landing-start-btn"
                     style={styles.startBtn}
                     onMouseEnter={e => {
                         e.currentTarget.style.transform = "translateY(-4px) scale(1.05)";

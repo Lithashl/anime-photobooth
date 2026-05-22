@@ -6,6 +6,7 @@ import Photobooth from "./components/Photobooth";
 import { CameraReelsFill } from "react-bootstrap-icons";
 import "./styles/global.css";
 import "./styles/animations.css";
+import "./styles/responsive.css";
 
 function App() {
   const [page, setPage] = useState("landing");
@@ -35,7 +36,7 @@ function App() {
       }}
     >
       {page !== "landing" && (
-        <nav style={{
+        <nav className="app-nav" style={{
           width: "100%",
           display: "flex",
           alignItems: "center",
@@ -64,7 +65,7 @@ function App() {
         </nav>
       )}
 
-      <div style={{
+      <div className={page !== "landing" ? "app-content" : ""} style={{
         flex: 1,
         width: "100%",
         display: "flex",

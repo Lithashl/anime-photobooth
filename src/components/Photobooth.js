@@ -296,6 +296,21 @@ export default function PhotoBooth({ selectedFrame, onBack, onBgColorChange }) {
         setDraggingSticker(null);
     };
 
+    const getTouchCoords = e => {
+        const touch = e.touches[0] || e.changedTouches[0];
+        return { clientX: touch.clientX, clientY: touch.clientY };
+    };
+
+    const handleTouchStart = e => {
+        e.preventDefault();
+        handleMouseDown(getTouchCoords(e));
+    };
+
+    const handleTouchMove = e => {
+        e.preventDefault();
+        handleMouseMove(getTouchCoords(e));
+    };
+
     const addSticker = src => {
         const img = new Image();
         img.src = src;
@@ -323,11 +338,12 @@ export default function PhotoBooth({ selectedFrame, onBack, onBgColorChange }) {
 
     return (
         <div style={s.page}>
-            <div style={s.card}>
+            <div style={s.card} className="pb-card">
 
                 {/* header */}
                 <div style={s.header}>
                     <button
+                        className="pb-back-btn"
                         style={s.backBtn}
                         onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.16)"; }}
                         onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; }}
@@ -336,10 +352,10 @@ export default function PhotoBooth({ selectedFrame, onBack, onBgColorChange }) {
                         <ArrowLeft size={14} style={{ marginRight: 4, verticalAlign: "middle" }} />
                         back
                     </button>
-                    <h1 style={s.title}>
+                    <h1 style={s.title} className="pb-header-title">
                         {mode === "photo" ? "⋆｡‧˚ʚ smile :) ɞ˚‧｡⋆" : "✦ let's decorate ✦"}
                     </h1>
-                    <div style={{ width: 90 }} />
+                    <div className="pb-header-spacer" style={{ width: 90 }} />
                 </div>
 
                 {/* mode indicator */}
@@ -356,13 +372,13 @@ export default function PhotoBooth({ selectedFrame, onBack, onBgColorChange }) {
                 </div>
 
                 {/* body */}
-                <div style={s.body}>
+                <div style={s.body} className="pb-body">
 
                     {/* left panel */}
-                    <div style={s.leftPanel}>
+                    <div style={s.leftPanel} className="pb-left-panel">
                         {mode === "photo" && (
                             <>
-                                <div style={s.camWrap}>
+                                <div style={s.camWrap} className="pb-cam-wrap">
                                     <Webcam
                                         audio={false}
                                         ref={webcamRef}
@@ -445,10 +461,11 @@ export default function PhotoBooth({ selectedFrame, onBack, onBgColorChange }) {
                                 </div>
 
                                 {/* action buttons */}
-                                <div style={s.btnRow}>
+                                <div style={s.btnRow} className="pb-btn-row">
                                     {!isAutoCapturing && photoCount < 4 && (
                                         <>
                                             <button
+                                                className="pb-primary-btn"
                                                 style={s.primaryBtn}
                                                 onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 10px 28px rgba(229,58,146,0.55)"; }}
                                                 onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 6px 20px rgba(229,58,146,0.4)"; }}
@@ -458,6 +475,7 @@ export default function PhotoBooth({ selectedFrame, onBack, onBgColorChange }) {
                                                 take photo
                                             </button>
                                             <label
+                                                className="pb-secondary-btn"
                                                 style={{ ...s.secondaryBtn, cursor: "pointer" }}
                                                 onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; }}
                                                 onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; }}
@@ -492,7 +510,7 @@ export default function PhotoBooth({ selectedFrame, onBack, onBgColorChange }) {
                         )}
 
                         {mode === "decorate" && (
-                            <div style={s.decoratePanel}>
+                            <div style={s.decoratePanel} className="pb-decorate-panel">
                                 <div style={s.sectionCard}>
                                     <p style={s.sectionLabel}><DiamondFill size={9} style={{ marginRight: 6, verticalAlign: "middle" }} />stickers</p>
                                     <div style={s.stickerRow}>
@@ -552,15 +570,19 @@ export default function PhotoBooth({ selectedFrame, onBack, onBgColorChange }) {
                     </div>
 
                     {/* right panel — photo strip */}
-                    <div style={s.stripWrap}>
+                    <div style={s.stripWrap} className="pb-strip-wrap">
                         <p style={s.stripLabel}><DiamondFill size={9} style={{ marginRight: 6, verticalAlign: "middle" }} />preview</p>
-                        <div style={s.stripInner}>
+                        <div style={s.stripInner} className="pb-strip-inner">
                             <canvas
                                 ref={canvasRef}
+                                className="pb-canvas"
                                 style={s.canvas}
                                 onMouseDown={handleMouseDown}
                                 onMouseMove={handleMouseMove}
                                 onMouseUp={handleMouseUp}
+                                onTouchStart={handleTouchStart}
+                                onTouchMove={handleTouchMove}
+                                onTouchEnd={handleMouseUp}
                             />
                         </div>
                     </div>

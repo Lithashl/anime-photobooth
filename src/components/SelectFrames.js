@@ -30,7 +30,7 @@ export default function SelectFrames({ onSelect }) {
 
     return (
         <div style={styles.container}>
-            <div style={styles.card}>
+            <div style={styles.card} className="select-card">
                 <div style={styles.titleArea}>
                     <h1 style={styles.title}>₊✩ Select a Frame ✩₊</h1>
                     <p style={styles.subtitle}>choose your anime universe</p>
@@ -41,6 +41,7 @@ export default function SelectFrames({ onSelect }) {
                         <button
                             key={g.id}
                             onClick={() => setActiveGroup(g.id)}
+                            className="select-tab"
                             style={{
                                 ...styles.tab,
                                 ...(activeGroup === g.id ? styles.tabActive : styles.tabInactive),
@@ -62,6 +63,7 @@ export default function SelectFrames({ onSelect }) {
                         currentFrames.map((src, i) => (
                             <div
                                 key={src}
+                                className="select-frame-card"
                                 style={{
                                     ...styles.frameCard,
                                     ...(hoveredFrame === i ? styles.frameCardHover : {}),
@@ -71,7 +73,7 @@ export default function SelectFrames({ onSelect }) {
                                 onClick={() => onSelect(src)}
                             >
                                 <img src={src} alt={`frame ${i + 1}`} style={styles.frameImg} />
-                                <div style={{
+                                <div className="select-frame-overlay" style={{
                                     ...styles.frameOverlay,
                                     opacity: hoveredFrame === i ? 1 : 0,
                                 }}>
